@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neuedu.mapper.GoodsMapper">
+    <resultMap type="com.neuedu.domain.Goods" id="listGoods">
+        <result property="goodsId" column="goods_id"/>
+        <result property="classifyId" column="classify_id"/>
+        <result property="goodsName" column="goods_name"/>
+        <result property="specification" column="specification"/>
+        <result property="description" column="description"/>
+        <result property="particulars" column="particulars"/>
+        <result property="price" column="price"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+
+        <association property="classify"  javaType="com.neuedu.domain.Classify" >
+            <result property="classifyId" column="classify_id" />
+            <result property="classifyName" column="classify_name" />
+        </association>
+    </resultMap>
+
+
+
+</mapper>

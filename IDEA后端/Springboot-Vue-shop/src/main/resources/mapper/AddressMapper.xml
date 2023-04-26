@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.mapper.AddressMapper">
+    <resultMap type="com.neuedu.domain.Address" id="listAddress">
+        <result property="addressId" column="address_id"/>
+        <result property="usersId" column="users_id"/>
+        <result property="addressName" column="address_name"/>
+        <result property="usersPhone" column="users_phone"/>
+        <result property="usersName" column="users_name"/>
+        <result property="postcode" column="postcode"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+
+        <association property="users" javaType="com.neuedu.domain.Users">
+            <result property="usersId" column="users_id"/>
+            <result property="username" column="username"/>
+            <result property="nickname" column="nickname"/>
+        </association>
+    </resultMap>
+    <select id="getAll" resultMap="listAddress">
+        SELECT a.address_id,
+        a.address_name,
+        a.users_phone,
+        a.users_name,
+        a.postcode,
+        a.users_id,
+        a.create_time,
+        a.update_time,
+        a.is_delete,
+        u.users_id,
+        u.username,
+        u.nickname
+        FROM s_address a LEFT JOIN s_users u ON a.users_id = u.users_id
+        WHERE a.is_delete = 0
+        <if test="address!=null and address.usersPhone!=null and address.usersPhone !=''">
+            and a.users_phone like #{address.usersPhone}
+        </if>
+        <if test="address!=null and address.usersName != null and address.usersName !=''">
+            and a.users_name like #{address.usersName}
+        </if>
+        <if test="address.users!=null and address.users.username !='' and address.users.username !=null">
+            and u.username like #{address.users.username}
+        </if>
+        <if test="address.users!=null and address.users.nickname != null and address.users.nickname !=''">
+            and u.nickname like #{address.users.nickname}
+        </if>
+        ORDER BY a.address_id DESC
+    </select>
+</mapper>
